@@ -1,0 +1,95 @@
+
+
+#MENU
+def mostrar_menu():
+    print("\nMenú:")
+    print("1. Cargar archivo")
+    print("2. Imprimir lista")
+    print("3. Asignar totales")
+    print("4. Filtrar por tipo")
+    print("5. Mostrar servicios")
+    print("6. Guardar servicios")
+    print("7. Salir")
+
+#1) cargo el archivo
+import json
+nombre_archivo = "compu.json"
+def cargar_archivo():
+    for servicio in nombre_archivo:
+        id_servicio = servicio["id_servicio"]
+        descripcion = servicio["descripcion"]
+        tipo = servicio["tipo"]    
+        precio_unitario = float(servicio["precioUnitario"])
+        cantidad = int(servicio["cantidad"])
+    return(servicio, id_servicio, descripcion, tipo, precio_unitario, cantidad)
+cargar_archivo
+        
+#2) imprimo lista en columnas
+def lista_columnada():
+    for servicio in nombre_archivo:        
+        print("{:<12} {:<35} {:<15} {:<10} {:<15}".format(
+            servicio["id_servicio"], 
+            servicio["descripcion"], 
+            servicio["tipo"], 
+            servicio["precioUnitario"], 
+            servicio["cantidad"]
+        )) 
+        return(servicio)
+
+
+#3) muestro los servicios con sus totales calculados usando la funcion lambda
+def totales_calculados():
+    asignar_totales = lambda servicio: int(servicio["cantidad"]) * int(servicio["precioUnitario"])
+    for servicio in nombre_archivo:
+        servicio["totalServicio"] = asignar_totales(servicio)
+totales_calculados()
+
+#4) filtro por tipo usando la funcion match ira cargando una lista con los distintos tipos
+def filtrar_tipo():
+    lista_hardware = []
+    lista_software = []
+    for servicio in nombre_archivo:
+        match servicio["tipo"]:
+            case "Hardware":
+                lista_hardware.append[servicio["tipo"]]
+            case "Software":
+                lista_software.append[servicio["tipo"]]
+    return(lista_hardware, lista_software)
+print(filtrar_tipo)
+
+#5) muestro los listados en orden ascendentes
+def ordenar_ascendentes():
+    servicios_ordenados = sorted(nombre_archivo, key=lambda x: x["descripcion"])
+    return(servicios_ordenados)
+print(ordenar_ascendentes)
+
+#6) guardo los servicios ordenados en el archivo JSON
+def guardar():
+    with open(nombre_archivo, "w") as archivo:
+        json.dump(nombre_archivo, archivo)
+
+    print(f"Se han guardado los servicios ordenados en el archivo '{nombre_archivo}' en formato JSON.")
+    return archivo
+
+def main():
+    while True:
+        mostrar_menu()
+        opcion = input("\nIngrese la opción deseada: ")
+        
+        if opcion == "1":
+            cargar_archivo()
+        elif opcion == "2":
+            lista_columnada()
+        elif opcion == "3":
+            totales_calculados()
+        elif opcion == "4":
+            filtrar_tipo()
+        elif opcion == "5":
+            ordenar_ascendentes()
+        elif opcion == "6":
+            guardar()
+        elif opcion == "7":
+            print("\nSaliendo del programa...")
+            break
+        else:
+            print("\nOpción no válida. Por favor, ingrese una opción válida (0, 1 o 2).")
